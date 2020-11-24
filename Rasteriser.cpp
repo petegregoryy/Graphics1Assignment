@@ -14,7 +14,7 @@ bool Rasteriser::Initialise()
 	camPos.SetZ(50.0f);
 	_camera = Camera(0.0f, 0, 0, camPos);
 
-	if (!MD2Loader::LoadModel("kenny.md2", _model, &Model::AddPolygon, &Model::AddVertex))
+	if (!MD2Loader::LoadModel("cube.md2", _model, &Model::AddPolygon, &Model::AddVertex))
 	{
 		return false;
 	}
@@ -33,7 +33,6 @@ bool Rasteriser::Initialise()
 
 void Rasteriser::Update(const Bitmap& bitmap)
 {
-
 	fAspectRatio = (float)bitmap.GetHeight() / (float)bitmap.GetWidth();
 	fTheta = 0.2f * time;
 	//fTheta = 1;

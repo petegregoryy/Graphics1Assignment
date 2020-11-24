@@ -3,7 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include "Polygon3D.h"
-#include "Model.h"
 #include "Vertex.h"
 #include "Matrix.h"
 

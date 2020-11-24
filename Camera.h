@@ -26,7 +26,6 @@ private:
 	Vertex _pos;
 
 	//Matrices
-
 	Matrix xRotM
 	{
 		1,0,0,0,
