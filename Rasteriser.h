@@ -7,6 +7,7 @@
 #include "MD2Loader.h"
 #include "Funcs.h"
 #include "Camera.h"
+#include "DirectionalLight.h"
 
 class Rasteriser : public Framework
 {
@@ -45,6 +46,8 @@ private:
 	Model _model;
 	Camera _camera;
 	Vertex camPos;
+
+	vector<DirectionalLight> _dirLight;
 
 	vector<Vertex> projectedVertices;
 	vector<Vertex> v = _model.GetVertices();

@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Funcs.cpp" />
     <ClCompile Include="Matrix.cpp" />
@@ -167,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Funcs.h" />
     <ClInclude Include="Matrix.h" />

@@ -8,6 +8,21 @@ Model::~Model()
 {
 }
 
+void Model::CalculateLightingDirectional(vector<DirectionalLight> dirLights)
+{
+	vector<int> totalRGB = vector<int>{ 0,0,0 };
+	vector<int> tempRGB = vector<int>{ 0,0,0 };
+
+	for (size_t i = 0; i < _sortedPolygons.size(); i++)
+	{
+		totalRGB = vector<int>{ 0,0,0 };
+		for (size_t k = 0; k < dirLights.size(); k++)
+		{
+			tempRGB = dirLights[k].GetColour();
+		}
+	}
+}
+
 const vector<Polygon3D>& Model::GetPolygons()
 {
 	return _polygons;

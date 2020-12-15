@@ -1,5 +1,8 @@
 #pragma once
+#include <vector>
 #include "Vector3D.h"
+
+using std::vector;
 
 class Polygon3D
 {
@@ -12,7 +15,7 @@ public:
 
 	bool GetCull();
 	void SetCull(bool in);
-	
+
 	int GetIndex(int) const;
 
 	float GetDepth() const;
@@ -20,6 +23,9 @@ public:
 
 	Vector3D GetNormal() const;
 	void SetNormal(Vector3D normal);
+	
+	vector<float> GetColour() const;
+	void SetRGB(float r, float g, float b);
 
 	//Polygon3D operator= (const Polygon3D &rhs);
 
@@ -28,5 +34,10 @@ private:
 	bool _cull = false;
 	float _zDepth;
 	Vector3D _normal;
+	
+	vector<float> _colour = vector<float>{ 1.0f,1.0f, 1.0f };
+	
+
+	
 };
 

@@ -1,7 +1,12 @@
 #include "Polygon3D.h"
 
+
+
 Polygon3D::Polygon3D()
 {
+	_colour[0] = 1.0f;
+	_colour[1] = 1.0f;
+	_colour[2] = 1.0f;
 	_indices[0] = 0;
 	_indices[1] = 0;
 	_indices[2] = 0;
@@ -66,6 +71,20 @@ void Polygon3D::SetNormal(Vector3D normal)
 	_normal = normal;
 }
 
+vector<float> Polygon3D::GetColour() const
+{
+	return vector<float>{_colour[0],_colour[1],_colour[2]};
+}
+
+void Polygon3D::SetRGB(float r, float g, float b)
+{
+	_colour[0] = r;
+	_colour[1] = g;
+	_colour[2] = b;
+
+}
+
+
 /*
 Polygon3D Polygon3D::operator=(const Polygon3D& rhs)
 {
@@ -80,4 +99,5 @@ Polygon3D::Polygon3D(const Polygon3D& other)
 	_cull = other._cull;
 	_zDepth = other._zDepth;
 	_normal = other._normal;
+	_colour = other._colour;
 }

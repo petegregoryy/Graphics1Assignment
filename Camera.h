@@ -20,9 +20,9 @@ public:
 	Matrix combinedMatrix();
 	Vertex operator* (const Vertex& vert);
 private:
-	float _x;
-	float _y;
-	float _z;
+	float _x = 0;
+	float _y = 0;
+	float _z = 0;
 	Vertex _pos;
 
 	//Matrices
