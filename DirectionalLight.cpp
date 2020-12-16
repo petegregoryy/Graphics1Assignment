@@ -10,19 +10,28 @@ DirectionalLight::~DirectionalLight()
 
 }
 
+DirectionalLight::DirectionalLight(Vector3D vec, int r, int g, int b)
+{
+	_vec = vec; 
+	_rgb[0] = (float)r;
+	_rgb[1] = (float)g;
+	_rgb[2] = (float)b;
+}
+
+
 Vector3D DirectionalLight::GetVector() const
 {
 	return _vec;
 }
 
-vector<int> DirectionalLight::GetColour() const
+vector<float> DirectionalLight::GetColour() const
 {
-	return vector<int>{_r, _g, _b};
+	return _rgb;
 }
 
 void DirectionalLight::SetColour(int r, int g, int b)
 {
-	_r = r;
-	_g = g;
-	_b = b;
+	_rgb[0] = (float)r;
+	_rgb[1] = (float)g;
+	_rgb[2] = (float)b;
 }

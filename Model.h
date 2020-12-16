@@ -2,10 +2,12 @@
 
 #include <vector>
 #include <algorithm>
+#include <cmath>
 #include "Polygon3D.h"
 #include "Vertex.h"
 #include "Matrix.h"
 #include "DirectionalLight.h"
+#include "Funcs.h"
 
 using std::vector;
 
@@ -29,6 +31,7 @@ public:
 	void AddVertex(float x, float y, float z);
 	void AddPolygon(int i0, int i1, int i2);
 	void SetPolygons(const vector<Polygon3D>& other);
+	void SetSortedPolygons(const vector<Polygon3D>& other);
 	void ApplyTransformToLocalVertices(const Matrix& transform);
 	void ApplyTransformToTransformedVertices(const Matrix& transform);
 	void SetTransformedVertices(const vector<Vertex>& other);

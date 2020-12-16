@@ -51,20 +51,20 @@ Vector3D::Vector3D(float x, float y, float z)
 
 float Vector3D::DotProduct(const Vector3D& other, const Vector3D& other2)
 {
-	float product = other._x * other2._x + other._y * other2._y + other._z * other2._z;
+	float product = (other._x * other2._x) + (other._y * other2._y) + (other._z * other2._z);
 	return product;
 }
 
 Vector3D Vector3D::CrossProduct(const Vector3D& other, const Vector3D& other2)
 {
 	Vector3D newVector;
-	/*
+	
 	newVector.SetX(other._y * other2._z - other._z * other2._y);
 	newVector.SetY(other._z * other2._x - other._x * other2._z);
 	newVector.SetZ(other._x * other2._y - other._y * other2._x);
-	*/
-	newVector.SetX(other._z * other2._y - other._y * other2._z);
-	newVector.SetY(other._x * other2._z - other._z * other2._x);
-	newVector.SetZ(other._y * other2._x - other._x * other2._y);
+	
+	//newVector.SetX(other._z * other2._y - other._y * other2._z);
+	//newVector.SetY(other._x * other2._z - other._z * other2._x);
+	//newVector.SetZ(other._y * other2._x - other._x * other2._y);
 	return newVector;
 }

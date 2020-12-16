@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "DirectionalLight.h"
 
+
 class Rasteriser : public Framework
 {
 public:
@@ -16,7 +17,9 @@ public:
 	void Update(const Bitmap& bitmap);
 	void Render(const Bitmap& bitmap);
 	void DrawWireFrame(const Bitmap& bitmap);
+	void DrawWireFrameNoBackFace(const Bitmap& bitmap);
 	void DrawShaded(const Bitmap& bitmap);
+	void DrawSolid(const Bitmap& bitmap);
 	void GeneratePerspectiveMatrix(float d, float aspectRatio);
 	void GenerateViewMatrix(float d, int width, int height);
 	Model Dehomogenise(Model& other);
@@ -47,7 +50,7 @@ private:
 	Camera _camera;
 	Vertex camPos;
 
-	vector<DirectionalLight> _dirLight;
+	vector<DirectionalLight> _dirLight = {DirectionalLight(Vector3D(0,0,1),255,255,255)};
 
 	vector<Vertex> projectedVertices;
 	vector<Vertex> v = _model.GetVertices();

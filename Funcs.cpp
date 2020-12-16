@@ -24,3 +24,8 @@ void Funcs::MultiplyMatrixVector(Vertex& i, Vertex& o, Matrix& m)
 		o.SetZ(o.GetZ() / o.GetW());
 	}
 }
+
+float Funcs::clamp(float x, float upper, float lower)
+{
+	return (float)fmin(upper, fmax(x, lower));
+}
