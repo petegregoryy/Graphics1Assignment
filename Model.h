@@ -8,6 +8,8 @@
 #include "Matrix.h"
 #include "DirectionalLight.h"
 #include "Funcs.h"
+#include "AmbientLight.h"
+#include "PointLight.h"
 
 using std::vector;
 
@@ -18,6 +20,8 @@ public:
 	~Model();
 	
 	void CalculateLightingDirectional(vector<DirectionalLight> dirLights);
+	void CalculateLightingAmbient(AmbientLight amb);
+	void CalculateLightingPoint(vector<PointLight> pointLights);
 
 	//Accessors
 	const vector<Polygon3D>& GetPolygons();
@@ -46,7 +50,7 @@ private:
 	vector<Vertex> _transformedVertices;
 	vector<Polygon3D> _sortedPolygons;
 
-	float kd_red = 1.0f;
-	float kd_blue = 1.0f;
-	float kd_green = 1.0f;
+	float kd_red = 0.5f;
+	float kd_blue = 0.5f;
+	float kd_green = 0.5f;
 };

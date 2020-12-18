@@ -27,8 +27,6 @@ public:
 	vector<float> GetColour() const;
 	void SetRGB(float r, float g, float b);
 
-	//Polygon3D operator= (const Polygon3D &rhs);
-
 private:
 	int _indices[3] = { 0,0,0 };
 	bool _cull = false;

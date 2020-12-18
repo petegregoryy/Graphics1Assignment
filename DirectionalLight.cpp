@@ -18,7 +18,6 @@ DirectionalLight::DirectionalLight(Vector3D vec, int r, int g, int b)
 	_rgb[2] = (float)b;
 }
 
-
 Vector3D DirectionalLight::GetVector() const
 {
 	return _vec;

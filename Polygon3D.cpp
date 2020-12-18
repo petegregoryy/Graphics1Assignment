@@ -84,13 +84,6 @@ void Polygon3D::SetRGB(float r, float g, float b)
 
 }
 
-
-/*
-Polygon3D Polygon3D::operator=(const Polygon3D& rhs)
-{
-	return Polygon3D(rhs._indices[0], rhs._indices[1], rhs._indices[2], rhs._cull, rhs._zDepth, rhs._normal, rhs._colour);
-}
-*/
 Polygon3D::Polygon3D(const Polygon3D& other)
 {
 	_indices[0] = other._indices[0];

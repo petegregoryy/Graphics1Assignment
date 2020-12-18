@@ -18,7 +18,7 @@ void Model::CalculateLightingDirectional(vector<DirectionalLight> dirLights)
 	float dotProd = 0;
 	for (size_t i = 0; i < _sortedPolygons.size(); i++)
 	{
-		totalRGB = vector<float>{ 0,0,0 };
+		totalRGB = _sortedPolygons[i].GetColour();
 		for (size_t k = 0; k < dirLights.size(); k++)
 		{
 			tempRGB = dirLights[k].GetColour();
@@ -27,13 +27,13 @@ void Model::CalculateLightingDirectional(vector<DirectionalLight> dirLights)
 			tempRGB[2] = tempRGB[2] * kd_blue;
 
 			Vector3D normalLightDir = dirLights[k].GetVector();
-			/*float l = sqrtf((normalLightDir.GetX() * normalLightDir.GetX()) + (normalLightDir.GetY() * normalLightDir.GetY()) + (normalLightDir.GetZ() * normalLightDir.GetZ()));
+			float l = sqrtf((normalLightDir.GetX() * normalLightDir.GetX()) + (normalLightDir.GetY() * normalLightDir.GetY()) + (normalLightDir.GetZ() * normalLightDir.GetZ()));
 
 			normalLightDir.SetX(normalLightDir.GetX() / l);
 			normalLightDir.SetY(normalLightDir.GetY() / l);
-			normalLightDir.SetZ(normalLightDir.GetZ() / l);*/
+			normalLightDir.SetZ(normalLightDir.GetZ() / l);
 
-			dotProd = Vector3D::DotProduct(_sortedPolygons[i].GetNormal(), normalLightDir);
+			dotProd = Vector3D::DotProduct(_polygons[i].GetNormal(), normalLightDir);
 			tempRGB[0] = tempRGB[0] * dotProd;
 			tempRGB[1] = tempRGB[1] * dotProd;
 			tempRGB[2] = tempRGB[2] * dotProd;
@@ -41,32 +41,81 @@ void Model::CalculateLightingDirectional(vector<DirectionalLight> dirLights)
 			totalRGB[0] = totalRGB[0] + tempRGB[0];
 			totalRGB[1] = totalRGB[1] + tempRGB[1];
 			totalRGB[2] = totalRGB[2] + tempRGB[2];
-
-			largest = totalRGB[0];
-			smallest = totalRGB[0];
-			for (size_t i = 0; i < totalRGB.size(); i++)
-			{
-				if (totalRGB[i] > largest)
-				{
-					largest = totalRGB[i];
-				}
-				else if (totalRGB[i] < smallest)
-				{
-					smallest = totalRGB[i];
-				}
-			}
-			
-			
 		}	
+
 		for (size_t i = 0; i < totalRGB.size(); i++)
 		{
-			float slope = 1.0f * (255 - 0) / (-10 - 0);
-			float output = 0 + slope * (totalRGB[i] - 0);
-			normRGB[i] = output;
-
-			normRGB[i] = Funcs::clamp(normRGB[i], 255, 0);
+			totalRGB[i] = Funcs::clamp(totalRGB[i], 255, 0);
 		}
-		_sortedPolygons[i].SetRGB(normRGB[0], normRGB[1], normRGB[2]);
+		_sortedPolygons[i].SetRGB(totalRGB[0], totalRGB[1], totalRGB[2]);
+	}
+}
+
+void Model::CalculateLightingAmbient(AmbientLight amb)
+{
+	vector<float> totalRGB = vector<float>{ 0,0,0 };
+	vector<float> tempRGB = vector<float>{ 0,0,0 };
+	for (size_t i = 0; i < _sortedPolygons.size(); i++)
+	{
+		totalRGB = { 0,0,0 };
+		tempRGB = { 0,0,0 };
+
+		tempRGB = amb.GetColour();
+		tempRGB[0] = tempRGB[0] * kd_red;
+		tempRGB[1] = tempRGB[1] * kd_green;
+		tempRGB[2] = tempRGB[2] * kd_blue;
+
+		totalRGB[0] = totalRGB[0] + tempRGB[0];
+		totalRGB[1] = totalRGB[1] + tempRGB[1];
+		totalRGB[2] = totalRGB[2] + tempRGB[2];
+
+		_sortedPolygons[i].SetRGB(totalRGB[0], totalRGB[1], totalRGB[2]);
+
+	}
+}
+
+void Model::CalculateLightingPoint(vector<PointLight> pointLights)
+{
+	vector<float> totalRGB = vector<float>{ 0,0,0 };
+	vector<float> tempRGB = vector<float>{ 0,0,0 };
+	float dotProd = 0;
+	float attenuation = 0;
+	int attA = 0;
+	int attB = 1;
+	int attC = 0;
+	for (size_t i = 0; i < _sortedPolygons.size(); i++)
+	{
+		totalRGB = _sortedPolygons[i].GetColour();
+		for (size_t k = 0; k < pointLights.size(); k++)
+		{
+
+			tempRGB = pointLights[k].GetRGB();
+			Vector3D lightVector = Vertex::GenerateVector(pointLights[k].GetVertex(), _transformedVertices[_sortedPolygons[i].GetIndex(0)]);
+			float l = sqrtf((lightVector.GetX() * lightVector.GetX()) + (lightVector.GetY() * lightVector.GetY()) + (lightVector.GetZ() * lightVector.GetZ()));
+
+			lightVector.SetX(lightVector.GetX() / l);
+			lightVector.SetY(lightVector.GetY() / l);
+			lightVector.SetZ(lightVector.GetZ() / l);
+			attenuation = 1 / (attA + attB * l + attC * (l * l));
+			dotProd = Vector3D::DotProduct(_polygons[i].GetNormal(), lightVector);
+			tempRGB[0] = tempRGB[0] * dotProd;
+			tempRGB[1] = tempRGB[1] * dotProd;
+			tempRGB[2] = tempRGB[2] * dotProd;
+
+			tempRGB[0] = (tempRGB[0]) * attenuation * 20;
+			tempRGB[1] = (tempRGB[1]) * attenuation * 20;
+			tempRGB[2] = (tempRGB[2]) * attenuation * 20;
+
+			totalRGB[0] = totalRGB[0] + tempRGB[0];
+			totalRGB[1] = totalRGB[1] + tempRGB[1];
+			totalRGB[2] = totalRGB[2] + tempRGB[2];
+
+		}
+		for (size_t i = 0; i < totalRGB.size(); i++)
+		{
+			totalRGB[i] = Funcs::clamp(totalRGB[i], 255, 0);
+		}
+		_sortedPolygons[i].SetRGB(totalRGB[0], totalRGB[1], totalRGB[2]);
 	}
 }
 
@@ -163,15 +212,16 @@ void Model::CalculateBackfaces(Model& _model, const Vertex& cameraPos)
 	for (int i = 0; i < poly.size(); i++)
 	{	
 		poly[i].SetCull(false);
-		Vector3D a = Vertex::GenerateVector(tVert[poly[i].GetIndex(1)], tVert[poly[i].GetIndex(0)]);
-		Vector3D b = Vertex::GenerateVector(tVert[poly[i].GetIndex(2)], tVert[poly[i].GetIndex(0)]);
-		Vector3D norm = Vector3D::CrossProduct(a, b);
-		poly[i].SetNormal(norm);
+		Vector3D a = Vertex::GenerateVector(tVert[poly[i].GetIndex(0)], tVert[poly[i].GetIndex(1)]);
+		Vector3D b = Vertex::GenerateVector(tVert[poly[i].GetIndex(0)], tVert[poly[i].GetIndex(2)]);
+		Vector3D norm = Vector3D::CrossProduct(b, a);
+		
 		float l = sqrtf(norm.GetX() * norm.GetX() + norm.GetY() * norm.GetY() + norm.GetZ() * norm.GetZ());
 
 		norm.SetX(norm.GetX() / l);
 		norm.SetY(norm.GetY() / l);
 		norm.SetZ(norm.GetZ() / l);
+		poly[i].SetNormal(norm);
 		Vector3D eyeVector = Vertex::GenerateVector(tVert[poly[i].GetIndex(0)], cameraPos);
 		float dotProd = Vector3D::DotProduct(norm, eyeVector);
 		if (dotProd < 0)
@@ -179,7 +229,7 @@ void Model::CalculateBackfaces(Model& _model, const Vertex& cameraPos)
 			poly[i].SetCull(true);
 		}
 	}
-	_model.SetSortedPolygons(poly);
+	_model.SetPolygons(poly);
 }
 
 void Model::SetTransformedVertices(const vector<Vertex>& other)

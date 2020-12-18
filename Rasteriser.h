@@ -8,6 +8,7 @@
 #include "Funcs.h"
 #include "Camera.h"
 #include "DirectionalLight.h"
+#include "PointLight.h"
 
 
 class Rasteriser : public Framework
@@ -20,6 +21,8 @@ public:
 	void DrawWireFrameNoBackFace(const Bitmap& bitmap);
 	void DrawShaded(const Bitmap& bitmap);
 	void DrawSolid(const Bitmap& bitmap);
+	void DrawSolidNoWire(const Bitmap& bitmap);
+	void MyDrawSolidFlat(const Bitmap& bitmap);
 	void GeneratePerspectiveMatrix(float d, float aspectRatio);
 	void GenerateViewMatrix(float d, int width, int height);
 	Model Dehomogenise(Model& other);
@@ -44,14 +47,14 @@ private:
 	float rotY = 0.0f;
 	float rotZ = 0.0f;
 
-	float fAspectRatio;
+	float fAspectRatio =0;
 
 	Model _model;
 	Camera _camera;
 	Vertex camPos;
 
-	vector<DirectionalLight> _dirLight = {DirectionalLight(Vector3D(0,0,1),255,255,255)};
-
+	vector<DirectionalLight> _dirLight = {DirectionalLight(Vector3D(1,0,1),0,255,255)};
+	vector<PointLight> _pLights = { PointLight(Vertex(0,0,50),255,255,255) };
 	vector<Vertex> projectedVertices;
 	vector<Vertex> v = _model.GetVertices();
 	vector<Vertex> vTran = _model.GetVertices();

@@ -81,9 +81,9 @@ void Camera::ConstructMatrices()
 	zRotM.SetM(1, 1, cosf(_z));
 
 	//Position Matrix
-	posM.SetM(0, 3, _pos.GetX());
-	posM.SetM(1, 3, _pos.GetY());
-	posM.SetM(2, 3, _pos.GetZ());
+	posM.SetM(0, 3, -_pos.GetX());
+	posM.SetM(1, 3, -_pos.GetY());
+	posM.SetM(2, 3, -_pos.GetZ());
 }
 
 Vertex Camera::operator*(const Vertex& vert)
